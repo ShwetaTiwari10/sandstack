@@ -1,31 +1,91 @@
+
+var AngularPage = require('./angular.page.js');
 describe('TodoMVC app', function() {
-  var newTodo;
+ 
+  var page;
 
-  beforeEach(() => {
-    browser.get('http://localhost:8080/');
-
-    newTodo = element(by.css('.new-todo'));
+  beforeEach(function() {
+    page = new AngularPage();
+  });
+    
+ it('should have the right title', function() {
+    //expected results
+    expect(page.title).toBe('Typescript & AngularJS • TodoMVC');
   });
 
-  it('should have the right title', () => {
-    var title = browser.getTitle();
-    expect(title).toBe('Typescript & AngularJS • TodoMVC');
+  it('should have placeholder text in the new todo input', function()  {
+    //expected results
+    expect(page.placeholderText).toEqual('What needs to be done?');
   });
 
-  it('should have placeholder text in the new todo input', () => {
-    var placeholderText = newTodo.getAttribute('placeholder');
-    expect(placeholderText).toEqual('What needs to be done?');
-  });
+it('should add a new todo', function(){
+  //add todo list
+page.addTodo('buybeer');
 
-  it('should add a new todo', () => {
-    // enter todo description
-    // enter RETURN
+page.addTodo('buy grill');
 
-    // validate the todo item is in the list
-    // look up the entered todo item in the list
+expect(page.addNewTodo.count()).toEqual(2);
 
-    // expect the text of the list item to be the todo description entered
-  });
-
-  // what other tests do you want to write? i.e. it('should ...', () => {});
 });
+
+//validate the remove todo item lists functions correctly
+
+it('validate the remove todo item lists' ,function(){
+
+    // call deleteTask function
+   page.deleteTask();
+    
+    // verify no items are in list
+   
+    expect(page.todoList.count()).toEqual(1);
+  });
+
+
+
+it('should validate the All todo item list', function () {
+
+ page.allItem.click();
+//expect results
+expect(page.allItem.getText()).toBeTruthy();
+
+
+});
+
+it('should validate the Active todo item list ', function() {
+   
+page.activeItem.click();
+//expected results
+expect(page.activeItem.getText()).toBeTruthy();
+
+});
+
+it('should validate the completed todo item list', function() {
+
+page.completedItem.click();
+//expected results
+expect(page.completedItem.getText()).toBeTruthy();
+});
+
+
+//validate all todo item  list is checked 
+
+it('should validate all the checked todo item list',function(){
+//validate all the checked todo item list
+page.allCheckItem.click();
+//expected results
+expect(page.allCheckItem.isSelected()).toBeTruthy();
+//validate clear completed button
+page.clearCompleted.click();
+ //expected results
+expect(page.clearCompleted.toBe == null);
+
+});
+});
+
+  
+
+
+
+
+
+
